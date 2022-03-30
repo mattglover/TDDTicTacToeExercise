@@ -78,7 +78,7 @@ class TTTGameManager {
     }
 
     private func calculateEndGame() -> EndGameStatus? {
-        if hasRowWin() || hasDiagonalWin() {
+        if hasRowWin() || hasDiagonalWin() || hasColumnWin() {
             return .win
         }
         return nil
@@ -89,8 +89,34 @@ class TTTGameManager {
     }
 
     private func hasDiagonalWin() -> Bool {
-        return squares[0] == .occupiedPlayerOne && squares[4] == .occupiedPlayerOne && squares[8] == .occupiedPlayerOne ||
-        squares[2] == .occupiedPlayerOne && squares[4] == .occupiedPlayerOne && squares[6] == .occupiedPlayerOne
+        return hasDiagonalWin(for: .player1) || hasDiagonalWin(for: .player2)
+    }
+
+    private func hasColumnWin() -> Bool {
+        return hasColumnWin(for: .player1) || hasColumnWin(for: .player2)
+    }
+
+    private func hasDiagonalWin(for player: Player) -> Bool {
+        let desiredSquareState: SquareState = player == .player1 ? .occupiedPlayerOne : .occupiedPlayerTwo
+        return squares[0] == desiredSquareState &&
+        squares[4] == desiredSquareState &&
+        squares[8] == desiredSquareState ||
+        squares[2] == desiredSquareState &&
+        squares[4] == desiredSquareState &&
+        squares[6] == desiredSquareState
+    }
+
+    private func hasColumnWin(for player: Player) -> Bool {
+        let desiredSquareState: SquareState = player == .player1 ? .occupiedPlayerOne : .occupiedPlayerTwo
+        return squares[0] == desiredSquareState &&
+        squares[3] == desiredSquareState &&
+        squares[6] == desiredSquareState ||
+        squares[1] == desiredSquareState &&
+        squares[4] == desiredSquareState &&
+        squares[7] == desiredSquareState ||
+        squares[3] == desiredSquareState &&
+        squares[5] == desiredSquareState &&
+        squares[8] == desiredSquareState
     }
 
     func switchCurrentPlayer() {

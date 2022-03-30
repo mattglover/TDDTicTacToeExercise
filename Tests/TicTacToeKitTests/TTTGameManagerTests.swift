@@ -175,6 +175,56 @@ class TTTGameManagerTests: XCTestCase {
 
         XCTAssertEqual(outcome.endGame, .win)
     }
+
+    func testPlayerOneWinsGame_ColumnWin() {
+        sut = Helper.defaultSUT()
+        sut.startGame(player: .player1)
+        let _ = sut.place(player: .player1, x: 0, y: 0)
+        let _ = sut.place(player: .player2, x: 0, y: 1)
+        let _ = sut.place(player: .player1, x: 1, y: 0)
+        let _ = sut.place(player: .player2, x: 0, y: 2)
+
+        let outcome = sut.place(player: .player1, x: 2, y: 0)
+
+        XCTAssertTrue(outcome.wasValid)
+        XCTAssertEqual(outcome.endGame, .win)
+        XCTAssertEqual(outcome.gridRepresentation, Constants.X_ColumnWin)
+    }
+
+    func testPlayerTwoWinsGame_ColumnWin() {
+        sut = Helper.defaultSUT()
+        sut.startGame(player: .player2)
+        let _ = sut.place(player: .player2, x: 0, y: 0)
+        let _ = sut.place(player: .player1, x: 0, y: 1)
+        let _ = sut.place(player: .player2, x: 1, y: 0)
+        let _ = sut.place(player: .player1, x: 0, y: 2)
+
+        let outcome = sut.place(player: .player2, x: 2, y: 0)
+
+        XCTAssertEqual(outcome.endGame, .win)
+    }
+
+    func testStalemate() {
+//        sut = Helper.defaultSUT()
+//        sut.startGame(player: .player1)
+//        let _ = sut.place(player: .player1, x: 0, y: 0)
+//        let _ = sut.place(player: .player2, x: 0, y: 1)
+//        let _ = sut.place(player: .player1, x: 1, y: 0)
+//        let _ = sut.place(player: .player2, x: 0, y: 2)
+//
+//        let outcome = sut.place(player: .player1, x: 2, y: 0)
+//
+//        XCTAssertTrue(outcome.wasValid)
+//        XCTAssertEqual(outcome.endGame, .win)
+//        XCTAssertEqual(outcome.gridRepresentation, Constants.X_ColumnWin)
+        XCTFail("To be implemented")
+    }
+
+    /*
+     XXO
+     OXX
+     XOO
+     */
     
 }
 
@@ -185,6 +235,7 @@ extension TTTGameManagerTests {
         static let XO_3x3 = "XO~\n~~~\n~~~"
         static let topRowX_Win = "XXX\n~~~\n~OO"
         static let X_DiagonalWin = "XOO\n~X~\n~~X"
+        static let X_ColumnWin = "XOO\nX~~\nX~~"
     }
 
     struct Helper {
